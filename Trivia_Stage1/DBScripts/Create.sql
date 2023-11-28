@@ -21,12 +21,14 @@ CREATE TABLE QuestionsStatusTab
 	 StatusName NVARCHAR(15)
 );
 Go
+
 CREATE TABLE LevelTab
 (
-	LevelID INT PRIMARY KEY identity (1,1),
+	LevelID INT PRIMARY KEY,
 	LEVELSName NVARCHAR (20) NOT NULL,
 );
 Go
+
 CREATE TABLE PlayersTab
 (
 	ID INT PRIMARY KEY identity(1,1),
@@ -50,6 +52,17 @@ CREATE TABLE QuestionTab
 	Questions3 NVARCHAR (100) NOT NULL,
 );
 
+INSERT INTO SubjectTab (SubName) VALUES ('Sports');
+INSERT INTO SubjectTab (SubName) VALUES ('Science');
 
+INSERT INTO QuestionsStatusTab (StatusId, StatusName) VALUES (1,'Pending');
+INSERT INTO QuestionsStatusTab (StatusId, StatusName) VALUES (2,'Approved');
+INSERT INTO QuestionsStatusTab (StatusId, StatusName) VALUES (3,'Declined');
+
+INSERT INTO LevelTab (LevelID, LEVELSName) VALUES (1,'Manager');
+INSERT INTO LevelTab (LevelID, LEVELSName) VALUES (2,'Master');
+INSERT INTO LevelTab (LevelID, LEVELSName) VALUES (3,'Rookie');
+
+INSERT INTO PlayersTab (mail, [name], [password], score, [IDlevel]) VALUES ('amit_marom.co.il', 'mamit', '16012008', 12000, 1);
 
 
