@@ -1,4 +1,5 @@
-﻿using Trivia_Stage1.UI;
+﻿using Microsoft.EntityFrameworkCore;
+using Trivia_Stage1.UI;
 
 namespace Trivia_Stage1
 {
