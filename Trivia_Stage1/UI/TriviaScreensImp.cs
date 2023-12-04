@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -107,7 +108,64 @@ namespace Trivia_Stage1.UI
         }
         public void ShowProfile()
         {
-            Console.WriteLine("Not implemented yet! Press any key to continue...");
+            CleareAndTtile("PROFILE");
+            TriviaDBContext db = new TriviaDBContext();
+            if(currentPlayer == null)
+            {
+                Console.WriteLine("Log in first!!!");
+                Console.ReadKey(true);
+                return;
+            }
+            Console.WriteLine($"Name: {this.currentPlayer.Name}");
+            Console.WriteLine($"Mail: {this.currentPlayer.Mail}");
+            Console.WriteLine($"Passworde: {this.currentPlayer.Password}");
+            Console.WriteLine($"Player Id: {this.currentPlayer.Id}");
+            Console.WriteLine($"Score: {this.currentPlayer.Score}");
+
+            char c = ' ';
+            Console.WriteLine("Update (M)ail, (N)ame, (P)assword, (B)ack...");
+            c = Console.ReadKey(true).KeyChar;
+
+            if(c == 'm' || c == 'M')
+            {
+                Console.WriteLine("Enter youre new Email");
+                string? mail = Console.ReadLine();
+                while (!IsEmailValid(mail))
+                {
+                    Console.Write("Bad Email Format! Please try again:");
+                    mail = Console.ReadLine();
+                }
+                this.currentPlayer.Mail = mail;
+                db.Add(mail);
+                db.SaveChanges();
+            }
+            if (c == 'n')
+            {
+                Console.WriteLine("Enter youre new name");
+                string? name = Console.ReadLine();
+                while (!IsNameValid(name))
+                {
+                    Console.Write("name must be at least 3 characters! Please try again: ");
+                    name = Console.ReadLine();
+                }
+                this.currentPlayer.Name = name;
+                db.Add(name);
+                db.SaveChanges();
+            }
+            if (c == 'p')
+            {
+                Console.Write("Please Type your password: ");
+                string? password = Console.ReadLine();
+                while (!IsPasswordValid(password))
+                {
+                    Console.Write("password must be at least 4 characters! Please try again: ");
+                    password = Console.ReadLine();
+                }
+                this.currentPlayer.Name = password;
+                db.Add(password);
+                db.SaveChanges();
+            }
+
             Console.ReadKey(true);
         }
 
