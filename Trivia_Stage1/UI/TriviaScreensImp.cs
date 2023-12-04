@@ -29,7 +29,7 @@ namespace Trivia_Stage1.UI
             //A reference to the logged in user should be stored as a member variable
             //in this class! Example:
             this.currentPlayer = null;
-
+            bool success = true;
             //Loop through inputs until a user/player is created or 
             //user choose to go back to menu
             char c = ' ';
@@ -62,7 +62,7 @@ namespace Trivia_Stage1.UI
                     name = Console.ReadLine();
                 }
 
-
+                
                 Console.WriteLine("Connecting to Server...");
                 //Create instance of Business Logic and call the signup method
                 //For example:
@@ -70,10 +70,12 @@ namespace Trivia_Stage1.UI
                 {
                     TriviaDBContext db = new TriviaDBContext();
                     this.currentPlayer = db.AddSignUp(email, password, name);
+                    Console.WriteLine("Player was added successfully! Hip Hip Hurray!!");
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Failed to signup! Email may already exist in DB!");
+                    success = false;
                 }
 
 
@@ -84,7 +86,7 @@ namespace Trivia_Stage1.UI
                 c = Console.ReadKey(true).KeyChar;
             }
             //return true if signup suceeded!
-            return (false);
+            return (success);
         }
 
         public void ShowAddQuestion()
