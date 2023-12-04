@@ -25,4 +25,11 @@ public partial class TriviaDBContext : DbContext
         return p1;
 
     }
+    public PlayersTab Login(string email, string password)
+    {
+        PlayersTab? p = this.PlayersTabs.Where(pp=>pp.Mail == email && pp.Password==password).FirstOrDefault();
+        return p;
+
+    }
+
 }

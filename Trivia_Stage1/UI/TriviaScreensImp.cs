@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using Trivia_Stage1.Models;
 
@@ -19,8 +20,24 @@ namespace Trivia_Stage1.UI
         //Implememnt interface here
         public bool ShowLogin()
         {
-            Console.WriteLine("Not implemented yet! Press any key to continue...");
-            Console.ReadKey(true);
+
+            TriviaDBContext dbContext = new TriviaDBContext();    
+            Console.WriteLine("please enter mail");
+            string mail = Console.ReadLine();
+            Console.WriteLine("please enter password");
+            string password = Console.ReadLine();
+            char c = ' ';
+
+            while(dbContext.Login(mail, password) == null)
+            {
+                Console.WriteLine("please enter mail");
+                mail = Console.ReadLine();
+                Console.WriteLine("please enter password");
+                password = Console.ReadLine();
+                dbContext.Login(mail, password);
+                Console.WriteLine("if you want to go back, ");
+            }
+
             return true;
         }
         public bool ShowSignup()
