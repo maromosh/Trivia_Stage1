@@ -22,10 +22,8 @@ namespace Trivia_Stage1.UI
         //Implememnt interface here
         public bool ShowLogin()
         {   
-
-            TriviaDBContext dbContext = new TriviaDBContext();    
             Console.WriteLine("please enter mail");
-            string mail = Console.ReadLine();
+            string? mail = Console.ReadLine();
             Console.WriteLine("please enter password");
             string? password = Console.ReadLine();
             char c = ' ';          
@@ -135,7 +133,7 @@ namespace Trivia_Stage1.UI
             if (this.currentPlayer.Score == 100 || this.currentPlayer.Idlevel == 3)
             {
                 QuestionTab q = new QuestionTab();
-                while (c != 'b' && c != 'B')
+                while (c != 'b' && c != 'B') 
                 {
                     Console.WriteLine("add your qustion");
                     string qustion = Console.ReadLine();
