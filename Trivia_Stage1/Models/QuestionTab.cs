@@ -21,17 +21,20 @@ public partial class QuestionTab
 
     public int? StatusId { get; set; }
 
-    [StringLength(100)]
-    public string RightQuestions { get; set; } = null!;
+    [StringLength(256)]
+    public string QuestionText { get; set; } = null!;
 
-    [StringLength(100)]
-    public string Questions1 { get; set; } = null!;
+    [StringLength(256)]
+    public string RightAnswer { get; set; } = null!;
 
-    [StringLength(100)]
-    public string Questions2 { get; set; } = null!;
+    [StringLength(256)]
+    public string BadAnswer1 { get; set; } = null!;
 
-    [StringLength(100)]
-    public string Questions3 { get; set; } = null!;
+    [StringLength(256)]
+    public string BadAnswer2 { get; set; } = null!;
+
+    [StringLength(256)]
+    public string BadAnswer3 { get; set; } = null!;
 
     [ForeignKey("PlayerId")]
     [InverseProperty("QuestionTabs")]

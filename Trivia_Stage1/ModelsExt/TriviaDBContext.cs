@@ -20,7 +20,7 @@ public partial class TriviaDBContext : DbContext
             Score = 0,
             Idlevel = PLAYER_ROOKIE,
         };
-        this.PlayersTabs.Add(p1);
+        Entry(p1).State=EntityState.Added; //חדש
         SaveChanges();
         return p1;
 
@@ -29,7 +29,17 @@ public partial class TriviaDBContext : DbContext
     {
         PlayersTab? p = this.PlayersTabs.Where(pp=>pp.Mail == email && pp.Password==password).FirstOrDefault();
         return p;
+    }
 
+    public void UpdatePlayer(PlayersTab p)
+    {
+        Entry(p).State = EntityState.Modified; //קיים ועודכן
+        SaveChanges();
+    }
+    public void EnterQustion(QuestionTab qustion)
+    {
+        Entry(qustion).State = EntityState.Added;
+        SaveChanges();
     }
 
 }

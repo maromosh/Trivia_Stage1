@@ -57,7 +57,7 @@ namespace Trivia_Stage1.UI
                 CleareAndTtile("Signup");
 
                 Console.Write("Please Type your email: ");
-                string email = Console.ReadLine();
+                string? email = Console.ReadLine();
                 while (!IsEmailValid(email))
                 {
                     Console.Write("Bad Email Format! Please try again:");
@@ -65,7 +65,7 @@ namespace Trivia_Stage1.UI
                 }
 
                 Console.Write("Please Type your password: ");
-                string password = Console.ReadLine();
+                string? password = Console.ReadLine();
                 while (!IsPasswordValid(password))
                 {
                     Console.Write("password must be at least 4 characters! Please try again: ");
@@ -73,7 +73,7 @@ namespace Trivia_Stage1.UI
                 }
 
                 Console.Write("Please Type your Name: ");
-                string name = Console.ReadLine();
+                string? name = Console.ReadLine();
                 while (!IsNameValid(name))
                 {
                     Console.Write("name must be at least 3 characters! Please try again: ");
@@ -109,8 +109,37 @@ namespace Trivia_Stage1.UI
 
         public void ShowAddQuestion()
         {
-            Console.WriteLine("Not implemented yet! Press any key to continue...");
-            Console.ReadKey(true);
+            CleareAndTtile("Show Add Question");
+            TriviaDBContext db = new TriviaDBContext();
+            char c = ' ';
+            
+            if (this.currentPlayer.Score == 100 || this.currentPlayer.Idlevel == 3)
+            {
+                QuestionTab q = new QuestionTab();
+                while (c != 'b' && c != 'B')
+                {
+                    Console.WriteLine("add your qustion");
+                    string qustion = Console.ReadLine();
+                    q.QuestionText = qustion;
+
+                    Console.WriteLine("enter 3 wrong");
+                    string wrong1 = Console.ReadLine();
+                    q.BadAnswer1 = wrong1;
+                    string wrong2 = Console.ReadLine();
+                    q.BadAnswer2 = wrong2;
+                    string wrong3 = Console.ReadLine();
+                    q.BadAnswer3 = wrong3;
+
+                    Console.WriteLine("ENTER RIGHT QUSTION");
+                    string right = Console.ReadLine();
+                    q.RightAnswer = right;
+                    db.EnterQustion(q);
+
+                    Console.WriteLine("press (B)ack to go back to menu");
+                    c = Console.ReadKey(true).KeyChar;
+                }
+            }
+            
         }
 
         public void ShowPendingQuestions()
@@ -127,63 +156,75 @@ namespace Trivia_Stage1.UI
         {
             CleareAndTtile("PROFILE");
             TriviaDBContext db = new TriviaDBContext();
-            if(currentPlayer == null)
-            {
-                Console.WriteLine("Log in first!!!");
-                Console.ReadKey(true);
-                return;
-            }
-            Console.WriteLine($"Name: {this.currentPlayer.Name}");
-            Console.WriteLine($"Mail: {this.currentPlayer.Mail}");
-            Console.WriteLine($"Passworde: {this.currentPlayer.Password}");
-            Console.WriteLine($"Player Id: {this.currentPlayer.Id}");
-            Console.WriteLine($"Score: {this.currentPlayer.Score}");
-
             char c = ' ';
-            Console.WriteLine("Update (M)ail, (N)ame, (P)assword, (B)ack...");
-            c = Console.ReadKey(true).KeyChar;
+            
+            while (c != 'b' && c != 'B')
+            {
+                if (currentPlayer == null)
+                {
+                    Console.WriteLine("Log in first!!!");
+                    Console.ReadKey(true);
+                    return;
+                }
+                Console.WriteLine($"Name: {this.currentPlayer.Name}");
+                Console.WriteLine($"Mail: {this.currentPlayer.Mail}");
+                Console.WriteLine($"Passworde: {this.currentPlayer.Password}");
+                Console.WriteLine($"Player Id: {this.currentPlayer.Id}");
+                Console.WriteLine($"Score: {this.currentPlayer.Score}");
 
-            if(c == 'm' || c == 'M')
-            {
-                Console.WriteLine("Enter youre new Email");
-                string? mail = Console.ReadLine();
-                while (!IsEmailValid(mail))
-                {
-                    Console.Write("Bad Email Format! Please try again:");
-                    mail = Console.ReadLine();
-                }
-                this.currentPlayer.Mail = mail;
-                db.Add(mail);
-                db.SaveChanges();
-            }
-            if (c == 'n')
-            {
-                Console.WriteLine("Enter youre new name");
-                string? name = Console.ReadLine();
-                while (!IsNameValid(name))
-                {
-                    Console.Write("name must be at least 3 characters! Please try again: ");
-                    name = Console.ReadLine();
-                }
-                this.currentPlayer.Name = name;
-                db.Add(name);
-                db.SaveChanges();
-            }
-            if (c == 'p')
-            {
-                Console.Write("Please Type your password: ");
-                string? password = Console.ReadLine();
-                while (!IsPasswordValid(password))
-                {
-                    Console.Write("password must be at least 4 characters! Please try again: ");
-                    password = Console.ReadLine();
-                }
-                this.currentPlayer.Name = password;
-                db.Add(password);
-                db.SaveChanges();
-            }
 
-            Console.ReadKey(true);
+                Console.WriteLine("Update (M)ail, (N)ame, (P)assword, (B)ack...");
+                c = Console.ReadKey(true).KeyChar;
+                bool updated = false;
+                if (c == 'm' || c == 'M')
+                {
+                    Console.WriteLine("Enter youre new Email");
+                    string? mail = Console.ReadLine();
+                    while (!IsEmailValid(mail))
+                    {
+                        Console.Write("Bad Email Format! Please try again:");
+                        mail = Console.ReadLine();
+                    }
+                    this.currentPlayer.Mail = mail;
+                    updated = true;
+                }
+                if (c == 'n' || c == 'N')
+                {
+                    Console.WriteLine("Enter youre new name");
+                    string? name = Console.ReadLine();
+                    while (!IsNameValid(name))
+                    {
+                        Console.Write("name must be at least 3 characters! Please try again: ");
+                        name = Console.ReadLine();
+                    }
+                    this.currentPlayer.Name = name;
+                    updated = true;
+                }
+                if (c == 'p' || c == 'P')
+                {
+                    Console.Write("Please Type your password: ");
+                    string? password = Console.ReadLine();
+                    while (!IsPasswordValid(password))
+                    {
+                        Console.Write("password must be at least 4 characters! Please try again: ");
+                        password = Console.ReadLine();
+                    }
+                    this.currentPlayer.Name = password;
+                    updated = true;
+                }
+                if(updated == true)
+                {
+                    try
+                    {
+                        db.Update(this.currentPlayer);
+                        Console.WriteLine("youre changes succeeded");
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("Failed changes!");
+                    }
+                }
+            }
         }
 
         //Private helper methodfs down here...
@@ -212,5 +253,7 @@ namespace Trivia_Stage1.UI
             return name != null && name.Length >= 3;
         }
 
+
+        //scaffold-DbContext "Server = (localdb)\MSSQLLocalDB; Database=TriviaDB; Trusted_Connection = True; TrustServerCertificate = True;" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir Models -Context TriviaDBContext -DataAnnotations -force
     }
 }

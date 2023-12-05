@@ -33,21 +33,21 @@ public partial class TriviaDBContext : DbContext
     {
         modelBuilder.Entity<LevelTab>(entity =>
         {
-            entity.HasKey(e => e.LevelId).HasName("PK__LevelTab__09F03C065A8C6B1B");
+            entity.HasKey(e => e.LevelId).HasName("PK__LevelTab__09F03C0610056B21");
 
             entity.Property(e => e.LevelId).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<PlayersTab>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PlayersT__3214EC27CFBB1A66");
+            entity.HasKey(e => e.Id).HasName("PK__PlayersT__3214EC27323EBE2B");
 
             entity.HasOne(d => d.IdlevelNavigation).WithMany(p => p.PlayersTabs).HasConstraintName("FK__PlayersTa__IDlev__2B3F6F97");
         });
 
         modelBuilder.Entity<QuestionTab>(entity =>
         {
-            entity.HasKey(e => e.QuestionId).HasName("PK__Question__0DC06F8C25C5A443");
+            entity.HasKey(e => e.QuestionId).HasName("PK__Question__0DC06F8CEC75AEDD");
 
             entity.HasOne(d => d.Player).WithMany(p => p.QuestionTabs).HasConstraintName("FK__QuestionT__Playe__2E1BDC42");
 
@@ -58,14 +58,14 @@ public partial class TriviaDBContext : DbContext
 
         modelBuilder.Entity<QuestionsStatusTab>(entity =>
         {
-            entity.HasKey(e => e.StatusId).HasName("PK__Question__C8EE20636CD1CB70");
+            entity.HasKey(e => e.StatusId).HasName("PK__Question__C8EE20630CF20019");
 
             entity.Property(e => e.StatusId).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<SubjectTab>(entity =>
         {
-            entity.HasKey(e => e.SubId).HasName("PK__SubjectT__4D9BB86A4E05A1CE");
+            entity.HasKey(e => e.SubId).HasName("PK__SubjectT__4D9BB86A84D33135");
         });
 
         OnModelCreatingPartial(modelBuilder);

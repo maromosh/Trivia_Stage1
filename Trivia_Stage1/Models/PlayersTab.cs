@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Trivia_Stage1.Models;
 
 [Table("PlayersTab")]
-[Index("Mail", Name = "UQ__PlayersT__7A2129045C8A6A75", IsUnique = true)]
+[Index("Mail", Name = "UQ__PlayersT__7A212904C2A0AA4E", IsUnique = true)]
 public partial class PlayersTab
 {
     [Key]

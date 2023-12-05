@@ -46,10 +46,11 @@ CREATE TABLE QuestionTab
 	PlayerID INT FOREIGN KEY REFERENCES PlayersTab(ID),
 	[SubjectID] INT FOREIGN KEY REFERENCES SubjectTab(SubID),
 	[StatusId] INT FOREIGN KEY REFERENCES QuestionsStatusTab(StatusId),
-	RightQuestions NVARCHAR (100) NOT NULL,
-	Questions1 NVARCHAR (100) NOT NULL,
-	Questions2 NVARCHAR (100) NOT NULL,
-	Questions3 NVARCHAR (100) NOT NULL,
+	QuestionText NVARCHAR (256) NOT NULL,
+	RightAnswer NVARCHAR (256) NOT NULL,
+	BadAnswer1 NVARCHAR (256) NOT NULL,
+	BadAnswer2 NVARCHAR (256) NOT NULL,
+	BadAnswer3 NVARCHAR (256) NOT NULL,
 );
 
 INSERT INTO SubjectTab (SubName) VALUES ('Sports');
@@ -66,3 +67,4 @@ INSERT INTO LevelTab (LevelID, LEVELSName) VALUES (3,'Rookie');
 INSERT INTO PlayersTab (mail, [name], [password], score, [IDlevel]) VALUES ('amit_marom.co.il', 'mamit', '16012008', 12000, 1);
 
 
+select * from PlayersTab
