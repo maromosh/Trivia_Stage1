@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -20,26 +21,42 @@ namespace Trivia_Stage1.UI
 
         //Implememnt interface here
         public bool ShowLogin()
-        {
-
-            TriviaDBContext dbContext = new TriviaDBContext();    
+        {   
             Console.WriteLine("please enter mail");
-            string mail = Console.ReadLine();
+            string? mail = Console.ReadLine();
             Console.WriteLine("please enter password");
-            string password = Console.ReadLine();
-            char c = ' ';
+            string? password = Console.ReadLine();
+            char c = ' ';          
+            PerformLogin(mail,password);
 
-            while(dbContext.Login(mail, password) == null)
+            while ( this.currentPlayer == null && c != 'B')
             {
-                Console.WriteLine("please enter mail");
-                mail = Console.ReadLine();
-                Console.WriteLine("please enter password");
-                password = Console.ReadLine();
-                dbContext.Login(mail, password);
-                Console.WriteLine("if you want to go back, ");
+                Console.WriteLine("Login Failed! (B)ack or other key to try again");
+                c = Console.ReadKey(true).KeyChar;
+                if (c != 'B' && c != 'b')
+                {
+                    Console.WriteLine("You should try again");
+                    Console.WriteLine("please enter mail");
+                    mail = Console.ReadLine();
+                    Console.WriteLine("please enter password");
+                    password = Console.ReadLine();
+                    PerformLogin(mail, password);
+                }
+                
+            }         
+            return (this.currentPlayer!=null);
+        }
+        private void PerformLogin(string mail, string password)
+        {
+            TriviaDBContext dbContext = new TriviaDBContext();
+            try
+            {
+                this.currentPlayer = dbContext.Login(mail, password);
             }
-
-            return true;
+            catch(Exception ex)
+            {
+                this.currentPlayer = null;
+            }
         }
         public bool ShowSignup()
         {
@@ -120,8 +137,7 @@ namespace Trivia_Stage1.UI
         }
         public void ShowGame()
         {
-            Console.WriteLine("Not implemented yet! Press any key to continue...");
-            Console.ReadKey(true);
+           
         }
         public void ShowProfile()
         {
