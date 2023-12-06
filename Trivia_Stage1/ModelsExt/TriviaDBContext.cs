@@ -41,5 +41,17 @@ public partial class TriviaDBContext : DbContext
         Entry(qustion).State = EntityState.Added;
         SaveChanges();
     }
+    public List<QuestionTab> BringQuestion()
+    {
+        return QuestionTabs.Where(q => q.StatusId == 2).ToList();
+        
+    }
+    //public string SendSubject()
+    //{
+    //    QuestionTab q1 = new QuestionTab();
+    //    SubjectTab s1 = new SubjectTab();
+    //    string q = this.QuestionTab.Where(q1 => q1.SubjectId == s1.SubId).FirstOrDefault();
+
+    //}
 
 }

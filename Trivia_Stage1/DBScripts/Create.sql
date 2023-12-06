@@ -65,6 +65,9 @@ INSERT INTO LevelTab (LevelID, LEVELSName) VALUES (2,'Master');
 INSERT INTO LevelTab (LevelID, LEVELSName) VALUES (3,'Rookie');
 
 INSERT INTO PlayersTab (mail, [name], [password], score, [IDlevel]) VALUES ('amit_marom.co.il', 'mamit', '16012008', 12000, 1);
+INSERT INTO QuestionTab (mail, [name], [password], score, [IDlevel]) VALUES ('amit_marom.co.il', 'mamit', '16012008', 12000, 1);
 
 
 select * from PlayersTab
+select * from QuestionsStatusTab
+select * from QuestionTab
