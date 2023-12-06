@@ -192,8 +192,19 @@ namespace Trivia_Stage1.UI
         }
         public void ShowGame()
         {
-           
-        }
+            TriviaDBContext db = new TriviaDBContext();
+            List<QuestionTab> Qs = db.BringQuestion();
+            foreach (QuestionTab q in Qs)
+            {
+                Console.WriteLine(q.QuestionText);
+                Console.WriteLine(q.BadAnswer1);
+                Console.WriteLine(q.BadAnswer2);
+                Console.WriteLine(q.BadAnswer3);
+                Console.WriteLine(q.RightAnswer);
+
+
+            }
+        }    
         public void ShowProfile()
         {
             CleareAndTtile("PROFILE");
