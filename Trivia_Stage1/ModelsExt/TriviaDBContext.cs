@@ -41,5 +41,11 @@ public partial class TriviaDBContext : DbContext
         Entry(qustion).State = EntityState.Added;
         SaveChanges();
     }
+    //public List<QuestionTab> GetPandingQuestion()
+    //{
+    //    List<QuestionTab> pending = this.QuestionTab.where(q => q.QuestionsStatusTab == 1).ToList();
+        //return pending;
+    //}
+
 
 }

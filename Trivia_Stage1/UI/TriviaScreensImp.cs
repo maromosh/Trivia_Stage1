@@ -21,7 +21,8 @@ namespace Trivia_Stage1.UI
 
         //Implememnt interface here
         public bool ShowLogin()
-        {   
+        {
+            CleareAndTtile("Log in");
             Console.WriteLine("please enter mail");
             string? mail = Console.ReadLine();
             Console.WriteLine("please enter password");
@@ -60,6 +61,7 @@ namespace Trivia_Stage1.UI
         }
         public bool ShowSignup()
         {
+            CleareAndTtile("Sign up");
             //Logout user if anyone is logged in!
             //A reference to the logged in user should be stored as a member variable
             //in this class! Example:
@@ -129,40 +131,64 @@ namespace Trivia_Stage1.UI
             CleareAndTtile("Show Add Question");
             TriviaDBContext db = new TriviaDBContext();
             char c = ' ';
+            bool success = false;
             
-            if (this.currentPlayer.Score == 100 || this.currentPlayer.Idlevel == 3)
+            if (this.currentPlayer.Score >= 100 || this.currentPlayer.Idlevel == 3)
             {
                 QuestionTab q = new QuestionTab();
-                while (c != 'b' && c != 'B') 
+                q.PlayerId = this.currentPlayer.Id;
+                q.StatusId = 1;
+                while (c != 'b' && c != 'B' && (this.currentPlayer.Idlevel == 3 || this.currentPlayer.Score>= 100)) 
                 {
-                    Console.WriteLine("add your qustion");
-                    string qustion = Console.ReadLine();
-                    q.QuestionText = qustion;
+                    if(currentPlayer.Score >= 100 || this.currentPlayer.Idlevel == 3)
+                    {
+                        Console.WriteLine("add your qustion");
+                        string qustion = Console.ReadLine();
+                        q.QuestionText = qustion;
 
-                    Console.WriteLine("enter 3 wrong");
-                    string wrong1 = Console.ReadLine();
-                    q.BadAnswer1 = wrong1;
-                    string wrong2 = Console.ReadLine();
-                    q.BadAnswer2 = wrong2;
-                    string wrong3 = Console.ReadLine();
-                    q.BadAnswer3 = wrong3;
+                        Console.WriteLine("enter 3 wrong");
+                        string wrong1 = Console.ReadLine();
+                        q.BadAnswer1 = wrong1;
+                        string wrong2 = Console.ReadLine();
+                        q.BadAnswer2 = wrong2;
+                        string wrong3 = Console.ReadLine();
+                        q.BadAnswer3 = wrong3;
 
-                    Console.WriteLine("ENTER RIGHT QUSTION");
-                    string right = Console.ReadLine();
-                    q.RightAnswer = right;
-                    db.EnterQustion(q);
+                        Console.WriteLine("ENTER RIGHT QUSTION");
+                        string right = Console.ReadLine();
+                        q.RightAnswer = right;
 
+                        try
+                        {
+                            db.EnterQustion(q);
+                            Console.WriteLine("added qustion seccseed");
+                            success = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Faild added qustion. Try agin or (B)ack...");
+                        }
+                        if (success && this.currentPlayer.Idlevel == 1)
+                        {
+                            this.currentPlayer.Score -= 100;
+                            db.UpdatePlayer(currentPlayer);
+                            Console.WriteLine("your score now is 0. Byyy");
+                        }
+                    }
+                    
                     Console.WriteLine("press (B)ack to go back to menu");
                     c = Console.ReadKey(true).KeyChar;
                 }
             }
-            
+            else
+            {
+                Console.WriteLine("youre not sutted for the job go back!!!!!");
+            }
         }
 
         public void ShowPendingQuestions()
         {
-            Console.WriteLine("Not implemented yet! Press any key to continue...");
-            Console.ReadKey(true);
+            
         }
         public void ShowGame()
         {
