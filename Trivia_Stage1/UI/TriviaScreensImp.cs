@@ -188,22 +188,55 @@ namespace Trivia_Stage1.UI
 
         public void ShowPendingQuestions()
         {
-            
+            CleareAndTtile("Pending Questions");
         }
         public void ShowGame()
         {
+            CleareAndTtile("Game");
             TriviaDBContext db = new TriviaDBContext();
+            char c = ' ';
+            bool success = false;
             List<QuestionTab> Qs = db.BringQuestion();
-            foreach (QuestionTab q in Qs)
+            string TheAnswer = " ";
+            int counter = 0;
+            int counter2 = 0;
+            foreach (QuestionTab q1 in Qs)
             {
-                Console.WriteLine(q.QuestionText);
-                Console.WriteLine(q.BadAnswer1);
-                Console.WriteLine(q.BadAnswer2);
-                Console.WriteLine(q.BadAnswer3);
-                Console.WriteLine(q.RightAnswer);
-
-
+                counter++;
             }
+            Console.WriteLine(counter);
+            while ((c != 'B') && (c != 'b') && (counter2 < counter))
+            {
+                foreach (QuestionTab q in Qs)
+                {
+                    Console.WriteLine(q.QuestionText);
+                    Console.WriteLine(q.BadAnswer1);
+                    Console.WriteLine(q.BadAnswer2);
+                    Console.WriteLine(q.BadAnswer3);
+                    Console.WriteLine(q.RightAnswer);
+
+                    Console.WriteLine("what is your final answer?");
+                    TheAnswer = Console.ReadLine();
+                    if (TheAnswer == q.RightAnswer)
+                    {
+                        this.currentPlayer.Score += 10;
+                        Console.WriteLine("Great job!!!!");
+                        success = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("you're incorrect:(");
+                    }
+                    counter2++;
+                }
+                
+                Console.WriteLine("press (B)ack to go back to menu");
+                c = Console.ReadKey(true).KeyChar;
+            }
+
+
+
+
         }    
         public void ShowProfile()
         {

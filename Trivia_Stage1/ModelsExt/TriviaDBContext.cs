@@ -46,6 +46,8 @@ public partial class TriviaDBContext : DbContext
         return QuestionTabs.Where(q => q.StatusId == 2).ToList();
         
     }
+
+
     //public string SendSubject()
     //{
     //    QuestionTab q1 = new QuestionTab();
