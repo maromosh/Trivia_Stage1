@@ -125,7 +125,6 @@ namespace Trivia_Stage1.UI
             //return true if signup suceeded!
             return (success);
         }
-
         public void ShowAddQuestion()
         {
             CleareAndTtile("Show Add Question");
@@ -142,6 +141,7 @@ namespace Trivia_Stage1.UI
                 {
                     if(currentPlayer.Score >= 100 || this.currentPlayer.Idlevel == 3)
                     {
+                        
                         Console.WriteLine("add your qustion");
                         string qustion = Console.ReadLine();
                         q.QuestionText = qustion;
@@ -189,6 +189,73 @@ namespace Trivia_Stage1.UI
         public void ShowPendingQuestions()
         {
             CleareAndTtile("Pending Questions");
+            TriviaDBContext db = new TriviaDBContext();
+            char c = ' ';
+            List<QuestionTab> Qs = db.ShowPending();
+            int counter = 0;
+            int counter2 = 0;
+            foreach (QuestionTab q1 in Qs)
+            {
+                counter++;
+            }
+            if (currentPlayer.Idlevel == 3 || currentPlayer.Idlevel == 2)
+            {
+                if(counter == 0)
+                {
+                    Console.WriteLine("No more pending Question");
+                }
+                else
+                {
+                    foreach (QuestionTab q in Qs)
+                    {
+                        while (c != 'B' && c != 'b')
+                        {
+
+                            Console.WriteLine(q.QuestionText);
+                            Console.WriteLine(q.BadAnswer1);
+                            Console.WriteLine(q.BadAnswer2);
+                            Console.WriteLine(q.BadAnswer3);
+                            Console.WriteLine($"Right answer - {q.RightAnswer}");
+                            Console.WriteLine("Press (A)pprove the question \n If you want to (D)ecline the question \n (S)kip question \n (B)ack");
+                            c = Console.ReadKey(true).KeyChar;
+                            if (c == 'A' || c == 'a')
+                            {
+                                try
+                                {
+                                    db.ChangeToApproved(q);
+                                    Console.WriteLine("The question is now Aprrove!");
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine("Failed to Aprrove");
+                                }
+                            }
+                            if (c == 'D' || c == 'd')
+                            {
+                                try
+                                {
+                                    Console.WriteLine("The question is now Declined!");
+                                    db.ChangeToDeclined(q);
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine("Failed to Decline");
+                                }
+                            }
+                            if (c == 's' || c == 'S')
+                            {
+                            }
+                            counter2--;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Only manager and master can change the question status!!!!"); 
+                Console.WriteLine("press (B)ack to go back to menu");
+                c = Console.ReadKey(true).KeyChar;
+            }
         }
         public void ShowGame()
         {
@@ -204,7 +271,7 @@ namespace Trivia_Stage1.UI
             {
                 counter++;
             }
-            Console.WriteLine(counter);
+            
             while ((c != 'B') && (c != 'b') && (counter2 < counter))
             {
                 foreach (QuestionTab q in Qs)
@@ -233,10 +300,6 @@ namespace Trivia_Stage1.UI
                 Console.WriteLine("press (B)ack to go back to menu");
                 c = Console.ReadKey(true).KeyChar;
             }
-
-
-
-
         }    
         public void ShowProfile()
         {

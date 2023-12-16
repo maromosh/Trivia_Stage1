@@ -46,7 +46,20 @@ public partial class TriviaDBContext : DbContext
         return QuestionTabs.Where(q => q.StatusId == 2).ToList();
         
     }
-
+    public List<QuestionTab> ShowPending()
+    {
+        return QuestionTabs.Where(q => q.StatusId == 1).ToList();
+    }
+    public void ChangeToApproved(QuestionTab q)
+    {
+        q.StatusId = 2;
+        SaveChanges();
+    }
+    public void ChangeToDeclined(QuestionTab q)
+    {
+        q.StatusId = 3;
+        SaveChanges();
+    }
 
     //public string SendSubject()
     //{
