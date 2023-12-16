@@ -14,7 +14,6 @@ namespace Trivia_Stage1.UI
 {
     public class TriviaScreensImp:ITriviaScreens
     {
-
         //Place here any state you would like to keep during the app life time
         //For example, player login details...
         private PlayersTab currentPlayer;
@@ -131,7 +130,8 @@ namespace Trivia_Stage1.UI
             TriviaDBContext db = new TriviaDBContext();
             char c = ' ';
             bool success = false;
-            
+            bool success1 = false;
+
             if (this.currentPlayer.Score >= 100 || this.currentPlayer.Idlevel == 3)
             {
                 QuestionTab q = new QuestionTab();
@@ -141,12 +141,14 @@ namespace Trivia_Stage1.UI
                 {
                     if(currentPlayer.Score >= 100 || this.currentPlayer.Idlevel == 3)
                     {
+                        Console.WriteLine("First, what is the subject of the question, press 1 for Sports, 2 Movies, 3 Countrys and 4 Other...");
+                        int sub = int.Parse(Console.ReadLine());
                         
                         Console.WriteLine("add your qustion");
                         string qustion = Console.ReadLine();
                         q.QuestionText = qustion;
 
-                        Console.WriteLine("enter 3 wrong");
+                        Console.WriteLine("enter 3 wrong answers");
                         string wrong1 = Console.ReadLine();
                         q.BadAnswer1 = wrong1;
                         string wrong2 = Console.ReadLine();
@@ -154,7 +156,7 @@ namespace Trivia_Stage1.UI
                         string wrong3 = Console.ReadLine();
                         q.BadAnswer3 = wrong3;
 
-                        Console.WriteLine("ENTER RIGHT QUSTION");
+                        Console.WriteLine("ENTER RIGHT ANSWER");
                         string right = Console.ReadLine();
                         q.RightAnswer = right;
 
@@ -193,61 +195,59 @@ namespace Trivia_Stage1.UI
             char c = ' ';
             List<QuestionTab> Qs = db.ShowPending();
             int counter = 0;
-            int counter2 = 0;
             foreach (QuestionTab q1 in Qs)
             {
                 counter++;
             }
             if (currentPlayer.Idlevel == 3 || currentPlayer.Idlevel == 2)
             {
-                if(counter == 0)
+                foreach (QuestionTab q in Qs)
                 {
-                    Console.WriteLine("No more pending Question");
-                }
-                else
-                {
-                    foreach (QuestionTab q in Qs)
-                    {
-                        while (c != 'B' && c != 'b')
-                        {
+                    Console.WriteLine("Pending Questions left - " + counter);
+                    //while (c != 'B' && c != 'b')
+                    //{
+                    if (q.SubjectId == 1) Console.WriteLine("Subject: Sports");
+                    else if (q.SubjectId == 2) Console.WriteLine("Subject: Movies");
+                    else if (q.SubjectId == 3) Console.WriteLine("Subject: Countries");
+                    else if (q.SubjectId == 4) Console.WriteLine("Subject: Other");
 
-                            Console.WriteLine(q.QuestionText);
-                            Console.WriteLine(q.BadAnswer1);
-                            Console.WriteLine(q.BadAnswer2);
-                            Console.WriteLine(q.BadAnswer3);
-                            Console.WriteLine($"Right answer - {q.RightAnswer}");
-                            Console.WriteLine("Press (A)pprove the question \n If you want to (D)ecline the question \n (S)kip question \n (B)ack");
-                            c = Console.ReadKey(true).KeyChar;
-                            if (c == 'A' || c == 'a')
-                            {
-                                try
-                                {
-                                    db.ChangeToApproved(q);
-                                    Console.WriteLine("The question is now Aprrove!");
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.WriteLine("Failed to Aprrove");
-                                }
-                            }
-                            if (c == 'D' || c == 'd')
-                            {
-                                try
-                                {
-                                    Console.WriteLine("The question is now Declined!");
-                                    db.ChangeToDeclined(q);
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.WriteLine("Failed to Decline");
-                                }
-                            }
-                            if (c == 's' || c == 'S')
-                            {
-                            }
-                            counter2--;
+                    Console.WriteLine(q.QuestionText);
+                    Console.WriteLine(q.BadAnswer1);
+                    Console.WriteLine(q.BadAnswer2);
+                    Console.WriteLine(q.BadAnswer3);
+                    Console.WriteLine($"Right answer - {q.RightAnswer}");
+                    Console.WriteLine("Press (A)pprove the question \nIf you want to (D)ecline the question \n(S)kip question \n(B)ack");
+                    c = Console.ReadKey(true).KeyChar;
+                    if (c == 'A' || c == 'a')
+                    {
+                        try
+                        {
+                            db.ChangeToApproved(q);
+                            Console.WriteLine("The question is now Aprrove!");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Failed to Aprrove");
                         }
                     }
+                    if (c == 'D' || c == 'd')
+                    {
+                        try
+                        {
+                            Console.WriteLine("The question is now Declined!");
+                            db.ChangeToDeclined(q);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Failed to Decline");
+                        }
+                    }
+                    if (c == 's' || c == 'S')
+                    {
+                    }
+                    counter--;
+                    Console.WriteLine();
+                    
                 }
             }
             else
@@ -276,6 +276,11 @@ namespace Trivia_Stage1.UI
             {
                 foreach (QuestionTab q in Qs)
                 {
+                    if (q.SubjectId == 1) Console.WriteLine("Subject: Sports");
+                    else if (q.SubjectId == 2) Console.WriteLine("Subject: Movies");
+                    else if (q.SubjectId == 3) Console.WriteLine("Subject: Countries");
+                    else if (q.SubjectId == 4) Console.WriteLine("Subject: Other");
+
                     Console.WriteLine(q.QuestionText);
                     Console.WriteLine(q.BadAnswer1);
                     Console.WriteLine(q.BadAnswer2);
@@ -295,6 +300,7 @@ namespace Trivia_Stage1.UI
                         Console.WriteLine("you're incorrect:(");
                     }
                     counter2++;
+                    Console.WriteLine();
                 }
                 
                 Console.WriteLine("press (B)ack to go back to menu");

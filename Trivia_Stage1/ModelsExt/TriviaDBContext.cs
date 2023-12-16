@@ -43,7 +43,7 @@ public partial class TriviaDBContext : DbContext
     }
     public List<QuestionTab> BringQuestion()
     {
-        return QuestionTabs.Where(q => q.StatusId == 2).ToList();
+        return QuestionTabs.Where(q => q.StatusId == 2).Include(q => q.Subject).ToList();
         
     }
     public List<QuestionTab> ShowPending()
